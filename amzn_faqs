@@ -21,3 +21,4 @@ def get_aws_faq(url="https://aws.amazon.com/ec2/faqs/",key_class ="lb-txt-16 lb-
         que_ans["ans"] = que1[j+1]
         amzn_faq_list.append(que_ans)
     return json.dumps( amzn_faq_list)
+# print get_aws_faq(url="https://aws.amazon.com/ec2/faqs/",key_class ="lb-txt-16 lb-rtxt")

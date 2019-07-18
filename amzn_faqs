@@ -1,0 +1,23 @@
+
+
+from bs4 import BeautifulSoup
+import requests
+import json
+
+def get_aws_faq(url="https://aws.amazon.com/ec2/faqs/",key_class ="lb-txt-16 lb-rtxt"):
+    req = requests.get(url)
+    soup = BeautifulSoup(req.text, features="lxml")
+    raw_soup_que_ans = soup.find("div", class_= key_class)
+    que = raw_soup_que_ans.find_all('p')    
+    que1 = [i.text for i in que]
+    if url =="https://aws.amazon.com/ec2/faqs/":
+        ans9 = raw_soup_que_ans.find_all('li')
+        ans9 = [i.text for i in ans9]
+        que1.insert(que1.index("Q: Which IDs are changing?")+1,'\n'.join(ans9))
+    amzn_faq_list = []
+    for j in range(0,len(que1),2):
+        que_ans = {}
+        que_ans["qn"] = que1[j]
+        que_ans["ans"] = que1[j+1]
+        amzn_faq_list.append(que_ans)
+    return json.dumps( amzn_faq_list)
